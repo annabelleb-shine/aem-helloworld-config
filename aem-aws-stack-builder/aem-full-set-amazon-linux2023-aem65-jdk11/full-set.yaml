@@ -247,7 +247,7 @@ chaos_monkey:
   instance_type: t2.micro
   root_vol_size: 30
   # Replaced by the AEM Chaos Engine, which reads the same enable_random_termination flags
-  include_stack: false
+  include_stack: true
   enable_random_termination: false
   termination_settings:
     calendar_open_hour: '9'
