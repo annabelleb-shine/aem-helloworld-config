@@ -237,7 +237,8 @@ orchestrator:
 # author_dispatcher, publish and publish_dispatcher components whose
 # enable_random_termination is true.
 chaos_engine:
-  include_stack: true
+  # TEST ONLY (AOC-I231, do not merge): off, so that only Chaos Monkey is in the environment
+  include_stack: false
   dry_run: true
   # Dry run only: every run passes the probability roll and reports a real
   # decision. Set it back to 1.0 (one attempt per day) with dry_run: false.
@@ -246,16 +247,18 @@ chaos_engine:
 chaos_monkey:
   instance_type: t2.micro
   root_vol_size: 30
-  # Replaced by the AEM Chaos Engine, which reads the same enable_random_termination flags
-  include_stack: false
+  # TEST ONLY (AOC-I231, do not merge): Chaos Monkey on with AEM AWS Stack Builder 9.x,
+  # to run AEM Test Suite without Chaos Monkey checks against an environment that still
+  # has it. It never terminates anything: probability and max terminations are 0.
+  include_stack: true
   enable_random_termination: false
   termination_settings:
     calendar_open_hour: '9'
     calendar_close_hour: '15'
     calendar_timezone: 'Australia/Sydney'
     scheduler_frequency_in_minutes: '5'
-    asg_probability: '1.0'
-    asg_max_terminations_per_day: '1.0'
+    asg_probability: '0.0'
+    asg_max_terminations_per_day: '0.0'
 
 dns_records:
   route53_hosted_zone_name: aemopencloud.cms.
